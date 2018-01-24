@@ -1,0 +1,5 @@
+### Necessay Packages 
+
+yum install epel-release 
+
+yum install vim htop  
