@@ -2,4 +2,4 @@
 
 yum install epel-release 
 
-yum install vim htop  
+yum install vim htop deltarpm  
