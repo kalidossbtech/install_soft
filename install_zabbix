@@ -1,0 +1,49 @@
+#Install Zabbix packages in Centos 7
+
+
+#set a static IP address for your machine
+#Install this Package
+rpm -ivh http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm
+
+yum install zabbix-server-mysql zabbix-proxy-mysql  zabbix-web-mysql 
+
+#Install DB for import sql data
+yum install mariadb mariadb-server -y
+
+systemctl start mariadb && syctemctl enable mariadb
+
+#check whether the service is active or not
+systemctl is-active mariadb
+
+#if [ $? == 0 ] then 
+mysql_secure_installation
+
+
+zcat /usr/share/doc/zabbix-server-mysql-3.4.7/create.sql.gz | mysql -uzabbix -p zabbix
+
+
+
+
+# vi /etc/zabbix/zabbix_server.conf
+#DBHost=localhost
+DBHost=192.168.1.57
+DBName=zabbix
+DBUser=zabbix
+DBPassword=zabbix
+
+systemctl start zabbix-server && systemctl enable zabbix-server 
+
+#Add these Vales in 
+php_value max_execution_time 300
+php_value memory_limit 128M
+php_value post_max_size 16M
+php_value upload_max_filesize 2M
+php_value max_input_time 300
+php_value always_populate_raw_post_data -1
+ php_value date.timezone Asia/Kolkata
+
+
+
+
+
+http://192.168.1.57/zabbix/setup.php
